@@ -1,0 +1,11 @@
+#!/sbin/openrc-run
+
+command="/usr/bin/btattach"
+command_args="-B /dev/ttyAMA0 -P bcm -S 921600 -N"
+command_background=true
+pidfile="/run/btattach.pid"
+
+depend() {
+	after coldplug hotplug modules
+	need localmount
+}

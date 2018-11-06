@@ -1,0 +1,15 @@
+# have a properly sized image
+disable_overscan=1
+
+# lets have the VC4 hardware accelerated video
+# dtoverlay=vc4-fkms-v3d
+
+# for sound over HDMI
+# hdmi_drive=2
+
+# Enable audio (loads snd_bcm2835)
+dtparam=audioon
+
+# gpu_mem is for closed-source driver only; since we are only using the
+# open-source driver here, set low
+gpu_mem=16
