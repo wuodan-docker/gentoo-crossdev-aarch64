@@ -21,25 +21,28 @@ touch /run/openrc/softlevel
 
 if [ "${1}" == "setup" ]; then
 
+	echo "Entering chroot ..."
 	echo "Adding services to default runlevel ..."
 	cat << EOF | chroot ${TARGET_PATH} 
 rc-update add btattach default
 rc-update add dhcpcd default
+rc-update add distccd default
+rc-update del hwclock boot
+rc-update add ntpd default
 rc-update add sshd default
+rc-update add swclock boot
 EOF
+	echo "Left chroot ..."
+else
 
-	echo "You should reset passwords with 'passwd && passwd pi' in chroot ..."
+	echo "Entering chroot ..."
+	chroot ${TARGET_PATH} /bin/bash --login
+	echo "Left chroot ..."
+
 fi
 
-echo "Entering chroot ..."
-chroot ${TARGET_PATH} /bin/bash --login
-echo "Left chroot ..."
 
 umount	${TARGET_PATH}/sys \
 		${TARGET_PATH}/proc \
 		${TARGET_PATH}/dev/pts \
 		${TARGET_PATH}/dev
-
-if [ "${1}" == "setup" ]; then
-	bash
-fi
